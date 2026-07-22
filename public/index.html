@@ -22,5 +22,107 @@
   </head>
   <body>
     <div id="root"></div>
+    <style>
+      #sales-notification {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background-color: white;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        padding: 8px 20px 8px 8px;
+        z-index: 99999;
+        font-family: 'Inter', 'Outfit', sans-serif;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        pointer-events: none;
+      }
+      #sales-notification.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .sn-icon-wrapper {
+        background-color: #fbbf24;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+      .sn-content {
+        display: flex;
+        flex-direction: column;
+      }
+      .sn-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: #111827;
+        line-height: 1.2;
+      }
+      .sn-subtitle {
+        margin: 0;
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.2;
+        margin-top: 2px;
+      }
+      @media (max-width: 600px) {
+        #sales-notification {
+          bottom: 15px;
+          left: 15px;
+          right: 15px;
+          padding: 8px 15px 8px 8px;
+        }
+      }
+    </style>
+    <div id="sales-notification">
+      <div class="sn-icon-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+      <div class="sn-content">
+        <p class="sn-title"><span id="sn-name"></span> de <span id="sn-location"></span></p>
+        <p class="sn-subtitle">acabou de garantir o <span id="sn-product"></span></p>
+      </div>
+    </div>
+    <script>
+      (function() {
+        const buyers = ["Carlos Mendes", "Ana Silva", "Marcos Oliveira", "Julia Costa", "Fernando Santos", "Rafael Lima", "Mariana Souza", "Pedro Alves", "João Pedro", "Lucas Gabriel", "Mateus Henrique", "Luiz Felipe", "Letícia", "Amanda"];
+        const locations = ["Fortaleza, CE", "São Paulo, SP", "Rio de Janeiro, RJ", "Belo Horizonte, MG", "Curitiba, PR", "Salvador, BA", "Recife, PE", "Porto Alegre, RS", "Brasília, DF", "Goiânia, GO", "Manaus, AM", "Belém, PA", "Campinas, SP", "São Luís, MA"];
+        const products = ["Pacote Completo", "Acesso VIP", "Plano Anual", "Combo Especial"];
+        
+        function getRandomItem(arr) {
+          return arr[Math.floor(Math.random() * arr.length)];
+        }
+        
+        function showNotification() {
+          document.getElementById('sn-name').textContent = getRandomItem(buyers);
+          document.getElementById('sn-location').textContent = getRandomItem(locations);
+          document.getElementById('sn-product').textContent = getRandomItem(products);
+          
+          const notif = document.getElementById('sales-notification');
+          notif.classList.add('show');
+          
+          setTimeout(() => {
+            notif.classList.remove('show');
+            scheduleNextNotification();
+          }, 5000);
+        }
+        
+        function scheduleNextNotification() {
+          const delays = [15000, 20000, 25000];
+          const delay = delays[Math.floor(Math.random() * delays.length)];
+          setTimeout(showNotification, delay);
+        }
+        
+        setTimeout(showNotification, 5000);
+      })();
+    </script>
   </body>
 </html>
